@@ -9,30 +9,33 @@ namespace DicomDcmProcessor
 {
     public static class MainProcessor
     {
-        private static bool isRuning = false;
         private static TaskCompletionSource<string> taskSource;
-
-        public static bool IsRunning { get { return isRuning; } }
+        private static CancellationTokenSource cancellationTokenSource;
+        
+        public string BufferFilePath { get; set; }
 
         public static void Start()
         {
             isRuning = true;
             taskSource = new TaskCompletionSource<string>();
             Task.Factory.StartNew(() => {
-                while (isRuning)
+                while (cancellationTokenSource.IsCancellationRequested == false)
                 {
+
+
+
                     Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     Thread.Sleep(1000);
                 }
                 taskSource.SetResult(string.Empty);
-            });
+            }, cancellationTokenSource.Token);
             Console.WriteLine("MainProcessor Started!");
         }
 
 
         public static void Stop()
         {
-            isRuning = false;
+            cancellationTokenSource.Cancel();
             var dummy = taskSource.Task.Result;
             Console.WriteLine("MainProcessor Stopped!");
 
