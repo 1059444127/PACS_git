@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dicom;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,18 +13,17 @@ namespace DicomDcmProcessor
         private static TaskCompletionSource<string> taskSource;
         private static CancellationTokenSource cancellationTokenSource;
         
-        public string BufferFilePath { get; set; }
+        public static bool IsRunning { get { return cancellationTokenSource.IsCancellationRequested == false; } }
+
+
 
         public static void Start()
         {
-            isRuning = true;
             taskSource = new TaskCompletionSource<string>();
             Task.Factory.StartNew(() => {
                 while (cancellationTokenSource.IsCancellationRequested == false)
                 {
-
-
-
+                    //var file = DicomFile.Open("G:\\testXYL.dcm");
                     Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     Thread.Sleep(1000);
                 }
@@ -35,7 +35,8 @@ namespace DicomDcmProcessor
 
         public static void Stop()
         {
-            cancellationTokenSource.Cancel();
+            if (cancellationTokenSource.IsCancellationRequested == false)
+                cancellationTokenSource.Cancel();
             var dummy = taskSource.Task.Result;
             Console.WriteLine("MainProcessor Stopped!");
 

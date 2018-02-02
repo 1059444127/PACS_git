@@ -37,8 +37,7 @@ namespace DicomDcmPicker
             }
             finally
             {
-                if (MainProcessor.IsRunning)
-                    MainProcessor.Stop();
+                MainProcessor.Stop();
                 appHost.Stop();
             }
 

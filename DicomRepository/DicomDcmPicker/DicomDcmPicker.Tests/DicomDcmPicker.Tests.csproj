@@ -58,11 +58,16 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DcmProcessorUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IntegrationTest.cs" />
     <Compile Include="UnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DicomDcmProcessor\DicomDcmProcessor.csproj">
+      <Project>{1c2c47ef-d1e9-4666-9ccb-36ec19d26ae7}</Project>
+      <Name>DicomDcmProcessor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DicomDcmPicker.ServiceInterface\DicomDcmPicker.ServiceInterface.csproj">
       <Project>{130DED02-5984-487C-93DD-0D264EED140E}</Project>
       <Name>DicomDcmPicker.ServiceInterface</Name>
